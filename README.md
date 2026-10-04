@@ -1,99 +1,55 @@
-API REST - Gerenciador de Tarefas
+# API REST - Gerenciador de Tarefas
 
-API RESTful desenvolvida em Java com Spring Boot para o gerenciamento de tarefas (CRUD), integrada ao banco de dados MySQL e documentada de forma interativa com Swagger (OpenAPI).
+API RESTful desenvolvida em Java com Spring Boot como parte de projetos práticos de engenharia de software. A aplicação implementa um CRUD completo de tarefas, com persistência em banco de dados MySQL e documentação interativa via Swagger (OpenAPI).
 
-Tecnologias Utilizadas
-Java 21
-Spring Boot 3
-Spring Data JPA (persistência de dados)
-MySQL Connector/J (driver do banco de dados)
-Springdoc OpenAPI / Swagger UI (documentação da API)
-Maven (gerenciamento de dependências)
-Endpoints
+## Funcionalidades
 
-URL base: http://localhost:8080/tarefas
+* **Listagem:** Consulta de todas as tarefas cadastradas (`GET /tarefas`).
+* **Busca por ID:** Retorna uma tarefa específica, ou `404 Not Found` caso não exista (`GET /tarefas/{id}`).
+* **Cadastro:** Criação de novas tarefas informando nome, descrição, data de entrega e status (`POST /tarefas`).
+* **Atualização (Update):** Modificação dos dados de uma tarefa existente buscando pelo ID (`PUT /tarefas/{id}`).
+* **Exclusão (Delete):** Remoção de uma tarefa com base no ID (`DELETE /tarefas/{id}`).
+* **Documentação Interativa:** Interface Swagger para testar todos os endpoints direto no navegador.
 
-Método	Endpoint	Descrição	Status HTTP
-GET	/tarefas	Retorna a lista de todas as tarefas	200 OK
-GET	/tarefas/{id}	Busca uma tarefa específica pelo ID	200 OK / 404 Not Found
-POST	/tarefas	Cria uma nova tarefa	201 Created
-PUT	/tarefas/{id}	Atualiza uma tarefa existente pelo ID	200 OK / 404 Not Found
-DELETE	/tarefas/{id}	Remove uma tarefa pelo ID	204 No Content / 404 Not Found
-Modelo de Dados
+## Tecnologias Utilizadas
 
-Exemplo de corpo de requisição para POST e PUT:
+* Java (JDK 21)
+* Spring Boot 3
+* Spring Data JPA (persistência de dados)
+* MySQL e MySQL Connector/J
+* Springdoc OpenAPI / Swagger UI
+* Maven (gerenciamento de dependências)
 
-json
+## Exemplo de Requisição
+
+Corpo usado nos métodos `POST` e `PUT`:
+
+```json
 {
   "nome": "Estudar Spring Data JPA",
   "descricao": "Aprender mapeamento de entidades e repositórios",
   "dataEntrega": "2026-10-10",
   "status": "EM_ANDAMENTO"
 }
-Campo	Tipo	Descrição
-nome	String	Nome da tarefa
-descricao	String	Detalhes da tarefa
-dataEntrega	Date	Data de entrega no formato yyyy-MM-dd
-status	Enum	PENDENTE, EM_ANDAMENTO ou CONCLUIDO
-Como Executar
-Pré-requisitos
-Java 21
-Maven
-MySQL
-Passo a passo
-Clone o repositório e acesse a pasta do projeto:
-bash
-   git clone <url-do-repositorio>
-   cd <nome-da-pasta>
-Crie o banco de dados no MySQL:
-sql
-   CREATE DATABASE tarefas_db;
-Configure o acesso ao banco em src/main/resources/application.properties:
-properties
-   spring.datasource.url=jdbc:mysql://localhost:3306/tarefas_db
-   spring.datasource.username=seu_usuario
-   spring.datasource.password=sua_senha
-   spring.jpa.hibernate.ddl-auto=update
-Execute a aplicação:
-bash
-   mvn spring-boot:run
+```
 
-A API ficará disponível em http://localhost:8080.
+Valores aceitos para o campo `status`: `PENDENTE`, `EM_ANDAMENTO` e `CONCLUIDO`.
 
-Documentação Interativa (Swagger)
+## Como Executar
 
-Com a aplicação em execução, acesse o Swagger UI no navegador para testar os endpoints:
+1. Tenha o Java 21, o Maven e o MySQL instalados.
+2. Crie o banco de dados: `CREATE DATABASE tarefas_db;`
+3. Ajuste usuário e senha do MySQL em `src/main/resources/application.properties`.
+4. Execute o projeto com o comando:
 
-http://localhost:8080/swagger-ui/index.html
+```bash
+mvn spring-boot:run
+```
 
-Exemplos de Uso
+A API ficará disponível em `http://localhost:8080`.
 
-Criar uma tarefa
+## Documentação (Swagger)
 
-bash
-curl -X POST http://localhost:8080/tarefas \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nome": "Estudar Spring Data JPA",
-    "descricao": "Aprender mapeamento de entidades e repositórios",
-    "dataEntrega": "2026-10-10",
-    "status": "PENDENTE"
-  }'
+Com a aplicação em execução, acesse:
 
-Listar todas as tarefas
-
-bash
-curl http://localhost:8080/tarefas
-
-Remover uma tarefa
-
-bash
-curl -X DELETE http://localhost:8080/tarefas/1
-Estrutura do Projeto
-src/main/java/.../
-├── controller/   # Endpoints REST
-├── service/      # Regras de negócio
-├── repository/   # Acesso ao banco (Spring Data JPA)
-└── model/        # Entidades e enums
-
-Ajuste os nomes das pastas conforme a organização real do seu projeto.
+`http://localhost:8080/swagger-ui/index.html`
